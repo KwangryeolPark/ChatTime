@@ -37,7 +37,7 @@ if __name__ == "__main__":
     # load tokenizer
     tokenizer = LlamaTokenizer.from_pretrained(args.model_path, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.padding_side = "right"
+    tokenizer.padding_side = "left"
     print(f"\nVocabulary number: {len(tokenizer.get_vocab())}\n")
 
     EOS_TOKEN = tokenizer.eos_token

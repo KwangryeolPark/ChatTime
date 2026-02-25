@@ -1,12 +1,22 @@
-DATA_PATH=""
-CODE_PATH=""
-MODEL_PATH=""
+DATA_PATH="dataset"
+CODE_PATH="."
+MODEL_PATH="./checkpoint/"
 
 code_path=$CODE_PATH
 model_path=meta-llama/Llama-2-7b-hf
 dataset_path=$DATA_PATH/ChatTime-1-Pretrain-1M/
 log_path=$MODEL_PATH/log_pretrain/
 output_path=$MODEL_PATH/ChatTime-1-7B-Base/
+# DATA_PATH="ChengsenWang"
+# CODE_PATH="."
+# MODEL_PATH="./checkpoint/"
+
+# code_path=$CODE_PATH
+# model_path=meta-llama/Llama-2-7b-hf
+# dataset_path=$DATA_PATH/ChatTime-1-Pretrain-1M
+# log_path=$MODEL_PATH/log_pretrain/
+# output_path=$MODEL_PATH/ChatTime-1-7B-Base/
+
 
 lora_rank=8
 lora_alpha=16
@@ -19,7 +29,7 @@ save_steps=200
 logging_steps=20
 max_steps=-1
 
-python "$code_path/training/source/pretrain.py" \
+python "$code_path/training/pretrain.py" \
   --code_path "$code_path" \
   --model_path "$model_path" \
   --dataset_path "$dataset_path" \

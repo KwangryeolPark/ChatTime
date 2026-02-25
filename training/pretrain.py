@@ -55,7 +55,7 @@ if __name__ == "__main__":
     # add token to llama tokenizer
     tokenizer = LlamaTokenizer.from_pretrained(args.model_path, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.padding_side = "right"
+    tokenizer.padding_side = "left"
     print(f"Old model pieces: {len(tokenizer.get_vocab())}")
     tokenizer.add_tokens(vocabulary.tolist())
     print(f"New model pieces: {len(tokenizer.get_vocab())}")
@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
     # load dataset
     def formatting_func(example):
-        return example["text"] + EOS_TOKEN
+        return example["text"] + [EOS_TOKEN]
 
 
     print(f"\nLoading dataset in {args.dataset_path}")
