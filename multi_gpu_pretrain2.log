@@ -1,7 +1,7 @@
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] 
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] *****************************************
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] *****************************************
+W0227 17:32:56.084000 3581925 torch/distributed/run.py:774] 
+W0227 17:32:56.084000 3581925 torch/distributed/run.py:774] *****************************************
+W0227 17:32:56.084000 3581925 torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0227 17:32:56.084000 3581925 torch/distributed/run.py:774] *****************************************
 🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
 🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
 🦥 Unsloth Zoo will now patch everything to make training faster!
@@ -16,12 +16,12 @@ Vocabulary:
 ['###-0.9999###' '###-0.9997###' '###-0.9995###' ... '###0.9997###'
  '###0.9999###' '###Nan###']
 
-Old model pieces: 32000
-New model pieces: 42001
-Local rank: 0
 Old model pieces: 32000
 New model pieces: 42001
 Local rank: 1
+Old model pieces: 32000
+New model pieces: 42001
+Local rank: 0
 ==((====))==  Unsloth 2025.7.2: Fast Llama patching. Transformers: 4.53.0.
    \\   /|    NVIDIA RTX A6000. Num GPUs = 2. Max memory: 44.554 GB. Platform: Linux.
 O^O/ \_/ \    Torch: 2.8.0+cu128. CUDA: 8.6. CUDA Toolkit: 12.8. Triton: 3.4.0
@@ -37,13 +37,9 @@ Unsloth: Fast downloading is enabled - ignore downloading bars which are red col
 The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
 The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
 The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
-Unsloth: Offloading input_embeddings to disk to save VRAM
+/workspace/ChatTime/venv/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:1225: UserWarning: Model has `tie_word_embeddings=True` and a tied layer is part of the adapter, but `ensure_weight_tying` is not set to True. This can lead to complications, for example when merging the adapter or converting your model to formats other than safetensors. Check the discussion here: https://github.com/huggingface/peft/issues/2777
+  warnings.warn(msg)
 The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
-Unsloth: Offloading input_embeddings to disk to save VRAM
-Unsloth: Offloading output_embeddings to disk to save VRAM
-Unsloth: Offloading output_embeddings to disk to save VRAM
-/workspace/ChatTime/venv/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:1225: UserWarning: Model has `tie_word_embeddings=True` and a tied layer is part of the adapter, but `ensure_weight_tying` is not set to True. This can lead to complications, for example when merging the adapter or converting your model to formats other than safetensors. Check the discussion here: https://github.com/huggingface/peft/issues/2777
-  warnings.warn(msg)
 /workspace/ChatTime/venv/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:1225: UserWarning: Model has `tie_word_embeddings=True` and a tied layer is part of the adapter, but `ensure_weight_tying` is not set to True. This can lead to complications, for example when merging the adapter or converting your model to formats other than safetensors. Check the discussion here: https://github.com/huggingface/peft/issues/2777
   warnings.warn(msg)
 Unsloth 2025.7.2 patched 32 layers with 32 QKV layers, 32 O layers and 32 MLP layers.
@@ -52,6 +48,20 @@ Unsloth: Training embed_tokens in mixed precision to save VRAM
 Unsloth: Training lm_head in mixed precision to save VRAM
 Unsloth: Training embed_tokens in mixed precision to save VRAM
 Unsloth: Training lm_head in mixed precision to save VRAM
+
+Loading dataset in dataset/ChatTime-1-Pretrain-1M/
+Dataset example: 
+You are a helpful assistant that performs time series prediction. The user will provide a sequence and you will predict the sequence.
+
+### Instruction:
+Please predict the following sequence carefully. Context knowledge you may consider: This sequence records electricity usage at a household in London, United Kingdom, with a collection granularity of 30 minutes. The target date for prediction is Wednesday, May 16, 2012. It is a weekday with overcast and gentle breeze. The minimum temperature is 3 degrees, and the maximum temperature is 12 degrees. The sun will rise at 5:06 and set at 20:47.
+
+### Input:
+###-0.4745### ###-0.4667### ###-0.4959### ###-0.4573### ###-0.4881### ###-0.4863### ###-0.4655### ###-0.4971### ###-0.4625### ###-0.4815### ###-0.4977### ###-0.4519### ###-0.4971### ###-0.4417### ###-0.4739### ###-0.4655### ###-0.3325### ###-0.4833### ###-0.4833### ###-0.4519### ###-0.4365### ###-0.4377### ###-0.3573### ###-0.4667### ###-0.4531### ###-0.4869### ###-0.4803### ###-0.4567### ###-0.4965### ###-0.4679### ###-0.4797### ###-0.4923### ###-0.4459### ###-0.4703### ###-0.4519### ###-0.3989### ###-0.4899### ###-0.4573### ###-0.4679### ###-0.4709### ###-0.4299### ###-0.4757### ###-0.4531### ###-0.4043### ###-0.4471### ###-0.4459### ###-0.4935### ###-0.4745### ###-0.4763### ###-0.4965### ###-0.4507### ###-0.4929### ###-0.4851### ###-0.4625### ###-0.4995### ###-0.4625### ###-0.4827### ###-0.4959### ###-0.4567### ###-0.4959### ###-0.4869### ###-0.3527### ###-0.4465### ###-0.4745### ###-0.4803### ###-0.4965### ###-0.4531### ###-0.4935### ###-0.4845### ###-0.4703### ###-0.4959### ###-0.4619### ###-0.4851### ###-0.4977### ###-0.4531### ###-0.4483### ###-0.3817### ###-0.4103### ###-0.4691### ###-0.4329### ###-0.4281### ###-0.4595### ###-0.4191### ###-0.3681### ###-0.4477### ###-0.2309### ###0.4019### ###-0.0537### ###-0.3551### ###-0.2855### ###-0.0301### ###-0.1749### ###-0.0793### ###-0.3639### ###-0.3591### ###-0.4489### ###-0.4745### ###-0.4935### ###-0.4757### ###-0.4471### ###-0.4941### ###-0.4827### ###-0.4471### ###-0.4935### ###-0.4775### ###-0.4507### ###-0.4941### ###-0.4715### ###-0.4543### ###-0.4323### ###-0.4185### ###-0.4857### ###-0.4959### ###-0.3979### ###-0.4977### ###-0.3907### ###-0.3693### ###-0.2183### ###-0.1791### ###-0.2957### ###-0.4989### ###-0.4115### ###-0.2813### ###-0.4377### ###-0.3853### ###-0.4263### ###-0.1149### ###-0.1143### ###-0.4109### ###0.3485### ###0.2725### ###0.2499### ###0.2933### ###0.1993### ###0.4595### ###0.1125### ###0.2189### ###0.3169### ###0.4999### ###-0.0419### ###-0.1833### ###-0.2345### ###-0.3663### ###-0.4579### ###-0.4709### ###-0.4959### ###-0.4435### ###-0.4881### ###-0.4751### ###-0.4601### ###-0.4989### ###-0.4579### ###-0.4809### ###-0.4911### ###-0.4531### ###-0.4983### ###-0.3265### ###-0.3967### ###-0.1031### ###0.3723### ###-0.2083### ###-0.3377### ###-0.2511### ###-0.1631### ###0.0051### ###-0.1999### ###-0.4555### ###-0.4591### ###-0.4809### ###-0.4899### ###-0.4483### ###-0.4579### ###-0.4245### ###-0.4215### ###-0.4281### ###-0.4275### ###-0.3503### ###-0.4323### ###-0.3937### ###-0.4365### ###-0.4561### ###-0.3771### ###-0.4477### ###-0.4797### ###-0.4519### ###-0.4525### ###-0.4423### ###-0.4341### ###-0.4139### ###-0.4525### ###-0.4965### ###-0.4679### ###-0.4827### ###-0.4995### ###-0.4513### ###-0.4989### ###-0.4863### ###-0.4643### ###-0.4959### ###-0.4769### ###-0.4703### ###-0.5001### ###-0.4655### ###-0.4851### ###-0.4821### ###-0.3889### ###-0.4323### ###-0.4579### ###-0.3913### ###-0.4733### ###-0.4661### ###-0.4833### ###-0.5001### ###-0.4555### ###-0.4983### ###-0.4299### ###-0.3585### ###-0.4383### ###-0.4631### ###-0.4763### ###-0.4953### ###-0.4043### ###-0.4643### ###-0.4471### ###-0.3787### ###-0.4685### ###-0.3925### ###-0.3835### ###-0.4887### ###-0.4649### ###-0.4833### ###-0.4869### ###-0.4293### ###-0.4781### ###-0.4637### ###-0.4121### ###-0.4501### ###-0.4353### ###-0.4733### ###-0.4995###
+
+### Response:
+###-0.4561### ###-0.4995### ###-0.4869### ###-0.4685### ###-0.5001### ###-0.4697### ###-0.4809### ###-0.5001### ###-0.4607### ###-0.4953### ###-0.4941### ###-0.4625### ###-0.4833### ###-0.4115### ###-0.4103### ###-0.4281### ###-0.3943### ###-0.4845### ###-0.4667### ###-0.4483### ###-0.4995### ###-0.4839### ###-0.4679### ###-0.4989### ###-0.4209### ###-0.4757### ###-0.4983### ###-0.4543### ###-0.4971### ###-0.4809### ###-0.4031### ###-0.4733### ###-0.4417### ###-0.4441### ###-0.4353### ###-0.3895### ###-0.4911### ###-0.4869### ###-0.4567### ###-0.4917### ###-0.4417### ###-0.4567### ###-0.4751### ###-0.3973### ###-0.4591### ###-0.4809### ###-0.4613### ###-0.4959###
+
 
 Loading dataset in dataset/ChatTime-1-Pretrain-1M/
 Dataset example: 
@@ -70,20 +80,6 @@ Please predict the following sequence carefully. Context knowledge you may consi
   warnings.warn(
 /workspace/ChatTime/unsloth_compiled_cache/UnslothSFTTrainer.py:600: UserWarning: You passed a `dataset_num_proc` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
   warnings.warn(
-
-Loading dataset in dataset/ChatTime-1-Pretrain-1M/
-Dataset example: 
-You are a helpful assistant that performs time series prediction. The user will provide a sequence and you will predict the sequence.
-
-### Instruction:
-Please predict the following sequence carefully. Context knowledge you may consider: This sequence records electricity usage at a household in London, United Kingdom, with a collection granularity of 30 minutes. The target date for prediction is Wednesday, May 16, 2012. It is a weekday with overcast and gentle breeze. The minimum temperature is 3 degrees, and the maximum temperature is 12 degrees. The sun will rise at 5:06 and set at 20:47.
-
-### Input:
-###-0.4745### ###-0.4667### ###-0.4959### ###-0.4573### ###-0.4881### ###-0.4863### ###-0.4655### ###-0.4971### ###-0.4625### ###-0.4815### ###-0.4977### ###-0.4519### ###-0.4971### ###-0.4417### ###-0.4739### ###-0.4655### ###-0.3325### ###-0.4833### ###-0.4833### ###-0.4519### ###-0.4365### ###-0.4377### ###-0.3573### ###-0.4667### ###-0.4531### ###-0.4869### ###-0.4803### ###-0.4567### ###-0.4965### ###-0.4679### ###-0.4797### ###-0.4923### ###-0.4459### ###-0.4703### ###-0.4519### ###-0.3989### ###-0.4899### ###-0.4573### ###-0.4679### ###-0.4709### ###-0.4299### ###-0.4757### ###-0.4531### ###-0.4043### ###-0.4471### ###-0.4459### ###-0.4935### ###-0.4745### ###-0.4763### ###-0.4965### ###-0.4507### ###-0.4929### ###-0.4851### ###-0.4625### ###-0.4995### ###-0.4625### ###-0.4827### ###-0.4959### ###-0.4567### ###-0.4959### ###-0.4869### ###-0.3527### ###-0.4465### ###-0.4745### ###-0.4803### ###-0.4965### ###-0.4531### ###-0.4935### ###-0.4845### ###-0.4703### ###-0.4959### ###-0.4619### ###-0.4851### ###-0.4977### ###-0.4531### ###-0.4483### ###-0.3817### ###-0.4103### ###-0.4691### ###-0.4329### ###-0.4281### ###-0.4595### ###-0.4191### ###-0.3681### ###-0.4477### ###-0.2309### ###0.4019### ###-0.0537### ###-0.3551### ###-0.2855### ###-0.0301### ###-0.1749### ###-0.0793### ###-0.3639### ###-0.3591### ###-0.4489### ###-0.4745### ###-0.4935### ###-0.4757### ###-0.4471### ###-0.4941### ###-0.4827### ###-0.4471### ###-0.4935### ###-0.4775### ###-0.4507### ###-0.4941### ###-0.4715### ###-0.4543### ###-0.4323### ###-0.4185### ###-0.4857### ###-0.4959### ###-0.3979### ###-0.4977### ###-0.3907### ###-0.3693### ###-0.2183### ###-0.1791### ###-0.2957### ###-0.4989### ###-0.4115### ###-0.2813### ###-0.4377### ###-0.3853### ###-0.4263### ###-0.1149### ###-0.1143### ###-0.4109### ###0.3485### ###0.2725### ###0.2499### ###0.2933### ###0.1993### ###0.4595### ###0.1125### ###0.2189### ###0.3169### ###0.4999### ###-0.0419### ###-0.1833### ###-0.2345### ###-0.3663### ###-0.4579### ###-0.4709### ###-0.4959### ###-0.4435### ###-0.4881### ###-0.4751### ###-0.4601### ###-0.4989### ###-0.4579### ###-0.4809### ###-0.4911### ###-0.4531### ###-0.4983### ###-0.3265### ###-0.3967### ###-0.1031### ###0.3723### ###-0.2083### ###-0.3377### ###-0.2511### ###-0.1631### ###0.0051### ###-0.1999### ###-0.4555### ###-0.4591### ###-0.4809### ###-0.4899### ###-0.4483### ###-0.4579### ###-0.4245### ###-0.4215### ###-0.4281### ###-0.4275### ###-0.3503### ###-0.4323### ###-0.3937### ###-0.4365### ###-0.4561### ###-0.3771### ###-0.4477### ###-0.4797### ###-0.4519### ###-0.4525### ###-0.4423### ###-0.4341### ###-0.4139### ###-0.4525### ###-0.4965### ###-0.4679### ###-0.4827### ###-0.4995### ###-0.4513### ###-0.4989### ###-0.4863### ###-0.4643### ###-0.4959### ###-0.4769### ###-0.4703### ###-0.5001### ###-0.4655### ###-0.4851### ###-0.4821### ###-0.3889### ###-0.4323### ###-0.4579### ###-0.3913### ###-0.4733### ###-0.4661### ###-0.4833### ###-0.5001### ###-0.4555### ###-0.4983### ###-0.4299### ###-0.3585### ###-0.4383### ###-0.4631### ###-0.4763### ###-0.4953### ###-0.4043### ###-0.4643### ###-0.4471### ###-0.3787### ###-0.4685### ###-0.3925### ###-0.3835### ###-0.4887### ###-0.4649### ###-0.4833### ###-0.4869### ###-0.4293### ###-0.4781### ###-0.4637### ###-0.4121### ###-0.4501### ###-0.4353### ###-0.4733### ###-0.4995###
-
-### Response:
-###-0.4561### ###-0.4995### ###-0.4869### ###-0.4685### ###-0.5001### ###-0.4697### ###-0.4809### ###-0.5001### ###-0.4607### ###-0.4953### ###-0.4941### ###-0.4625### ###-0.4833### ###-0.4115### ###-0.4103### ###-0.4281### ###-0.3943### ###-0.4845### ###-0.4667### ###-0.4483### ###-0.4995### ###-0.4839### ###-0.4679### ###-0.4989### ###-0.4209### ###-0.4757### ###-0.4983### ###-0.4543### ###-0.4971### ###-0.4809### ###-0.4031### ###-0.4733### ###-0.4417### ###-0.4441### ###-0.4353### ###-0.3895### ###-0.4911### ###-0.4869### ###-0.4567### ###-0.4917### ###-0.4417### ###-0.4567### ###-0.4751### ###-0.3973### ###-0.4591### ###-0.4809### ###-0.4613### ###-0.4959###
-
 /workspace/ChatTime/unsloth_compiled_cache/UnslothSFTTrainer.py:586: UserWarning: You passed a `max_seq_length` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
   warnings.warn(
 /workspace/ChatTime/unsloth_compiled_cache/UnslothSFTTrainer.py:600: UserWarning: You passed a `dataset_num_proc` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
@@ -106,5 +102,5 @@ O^O/ \_/ \    Batch size per device = 16 | Gradient accumulation steps = 8
  "-____-"     Trainable parameters = 364,060,672 of 3,946,401,792 (9.23% trained)
   0%|          | 0/8800 [00:00<?, ?it/s]Unsloth: Will smartly offload gradients to save VRAM!
 Unsloth: Will smartly offload gradients to save VRAM!
-  0%|          | 1/8800 [01:12<176:35:29, 72.25s/it]                                                    {'loss': 9.7262, 'grad_norm': 610.959228515625, 'learning_rate': 0.0, 'epoch': 0.0}
-  0%|          | 1/8800 [01:12<176:35:29, 72.25s/it]  0%|          | 2/8800 [02:14<161:44:25, 66.18s/it]  0%|          | 3/8800 [03:15<155:47:54, 63.76s/it]  0%|          | 4/8800 [04:15<152:57:01, 62.60s/it]  0%|          | 5/8800 [05:16<151:17:04, 61.92s/it]  0%|          | 6/8800 [06:20<152:51:33, 62.58s/it]  0%|          | 7/8800 [07:21<151:17:40, 61.94s/it]  0%|          | 8/8800 [08:21<150:14:16, 61.52s/it]  0%|          | 9/8800 [09:22<149:35:40, 61.26s/it]  0%|          | 10/8800 [10:23<149:10:11, 61.09s/it]  0%|          | 11/8800 [11:23<148:49:15, 60.96s/it]  0%|          | 12/8800 [12:24<148:30:34, 60.84s/it]  0%|          | 13/8800 [13:25<148:28:41, 60.83s/it]  0%|          | 14/8800 [14:25<148:22:53, 60.80s/it]  0%|          | 15/8800 [15:26<148:17:36, 60.77s/it]
+  0%|          | 1/8800 [01:00<148:28:47, 60.75s/it]                                                    {'loss': 9.7227, 'grad_norm': 630.9502563476562, 'learning_rate': 0.0, 'epoch': 0.0}
+  0%|          | 1/8800 [01:00<148:28:47, 60.75s/it]  0%|          | 2/8800 [02:01<148:36:01, 60.80s/it]  0%|          | 3/8800 [03:02<148:48:56, 60.90s/it]  0%|          | 4/8800 [04:03<148:46:53, 60.89s/it]

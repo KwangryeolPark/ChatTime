@@ -43,4 +43,4 @@ torchrun --nproc_per_node=$NUM_GPUS "$code_path/training/pretrain.py" \
   --save_steps $save_steps \
   --logging_steps $logging_steps \
   --max_steps $max_steps \
-  --load_in_4bit 2>&1 | tee multi_gpu_pretrain.log
+  --load_in_4bit 2>&1 | tee multi_gpu_pretrain3.log

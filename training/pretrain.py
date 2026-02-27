@@ -88,7 +88,7 @@ if __name__ == "__main__":
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj", ],
         modules_to_save=["embed_tokens", "lm_head", ],
         bias="none",
-        use_gradient_checkpointing="unsloth",
+        use_gradient_checkpointing=False,
         random_state=args.random_seed,
         max_seq_length=args.max_seq_length,
     )
@@ -134,6 +134,9 @@ if __name__ == "__main__":
             save_total_limit=1,
             logging_first_step=True,
             optim="adamw_8bit",
+            dataloader_num_workers=4,
+            dataloader_pin_memory=True,
+            dataloader_persistent_workers=True,
             lr_scheduler_type="cosine",
             seed=args.random_seed,
             output_dir=args.log_path,

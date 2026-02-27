@@ -1,7 +1,7 @@
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] 
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] *****************************************
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-W0227 17:16:29.137000 3570104 torch/distributed/run.py:774] *****************************************
+W0227 17:42:15.694000 3589195 torch/distributed/run.py:774] 
+W0227 17:42:15.694000 3589195 torch/distributed/run.py:774] *****************************************
+W0227 17:42:15.694000 3589195 torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0227 17:42:15.694000 3589195 torch/distributed/run.py:774] *****************************************
 🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
 🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
 🦥 Unsloth Zoo will now patch everything to make training faster!
@@ -16,10 +16,10 @@ Vocabulary:
 ['###-0.9999###' '###-0.9997###' '###-0.9995###' ... '###0.9997###'
  '###0.9999###' '###Nan###']
 
+Old model pieces: 32000
 Old model pieces: 32000
 New model pieces: 42001
 Local rank: 0
-Old model pieces: 32000
 New model pieces: 42001
 Local rank: 1
 ==((====))==  Unsloth 2025.7.2: Fast Llama patching. Transformers: 4.53.0.
@@ -37,13 +37,9 @@ Unsloth: Fast downloading is enabled - ignore downloading bars which are red col
 The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
 The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
 The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
-Unsloth: Offloading input_embeddings to disk to save VRAM
-The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
-Unsloth: Offloading input_embeddings to disk to save VRAM
-Unsloth: Offloading output_embeddings to disk to save VRAM
-Unsloth: Offloading output_embeddings to disk to save VRAM
 /workspace/ChatTime/venv/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:1225: UserWarning: Model has `tie_word_embeddings=True` and a tied layer is part of the adapter, but `ensure_weight_tying` is not set to True. This can lead to complications, for example when merging the adapter or converting your model to formats other than safetensors. Check the discussion here: https://github.com/huggingface/peft/issues/2777
   warnings.warn(msg)
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
 /workspace/ChatTime/venv/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:1225: UserWarning: Model has `tie_word_embeddings=True` and a tied layer is part of the adapter, but `ensure_weight_tying` is not set to True. This can lead to complications, for example when merging the adapter or converting your model to formats other than safetensors. Check the discussion here: https://github.com/huggingface/peft/issues/2777
   warnings.warn(msg)
 Unsloth 2025.7.2 patched 32 layers with 32 QKV layers, 32 O layers and 32 MLP layers.
@@ -106,5 +102,5 @@ O^O/ \_/ \    Batch size per device = 16 | Gradient accumulation steps = 8
  "-____-"     Trainable parameters = 364,060,672 of 3,946,401,792 (9.23% trained)
   0%|          | 0/8800 [00:00<?, ?it/s]Unsloth: Will smartly offload gradients to save VRAM!
 Unsloth: Will smartly offload gradients to save VRAM!
-  0%|          | 1/8800 [01:12<176:35:29, 72.25s/it]                                                    {'loss': 9.7262, 'grad_norm': 610.959228515625, 'learning_rate': 0.0, 'epoch': 0.0}
-  0%|          | 1/8800 [01:12<176:35:29, 72.25s/it]  0%|          | 2/8800 [02:14<161:44:25, 66.18s/it]  0%|          | 3/8800 [03:15<155:47:54, 63.76s/it]  0%|          | 4/8800 [04:15<152:57:01, 62.60s/it]  0%|          | 5/8800 [05:16<151:17:04, 61.92s/it]  0%|          | 6/8800 [06:20<152:51:33, 62.58s/it]  0%|          | 7/8800 [07:21<151:17:40, 61.94s/it]  0%|          | 8/8800 [08:21<150:14:16, 61.52s/it]  0%|          | 9/8800 [09:22<149:35:40, 61.26s/it]  0%|          | 10/8800 [10:23<149:10:11, 61.09s/it]  0%|          | 11/8800 [11:23<148:49:15, 60.96s/it]  0%|          | 12/8800 [12:24<148:30:34, 60.84s/it]  0%|          | 13/8800 [13:25<148:28:41, 60.83s/it]  0%|          | 14/8800 [14:25<148:22:53, 60.80s/it]  0%|          | 15/8800 [15:26<148:17:36, 60.77s/it]
+  0%|          | 1/8800 [01:00<147:32:19, 60.36s/it]                                                    {'loss': 9.7228, 'grad_norm': 650.8840942382812, 'learning_rate': 0.0, 'epoch': 0.0}
+  0%|          | 1/8800 [01:00<147:32:19, 60.36s/it]  0%|          | 2/8800 [02:00<147:34:21, 60.38s/it]  0%|          | 3/8800 [03:01<148:01:39, 60.58s/it]  0%|          | 4/8800 [04:02<148:10:23, 60.64s/it]  0%|          | 5/8800 [05:02<148:10:57, 60.65s/it]  0%|          | 6/8800 [06:03<148:15:46, 60.69s/it]
