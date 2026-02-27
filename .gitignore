@@ -3,3 +3,4 @@ _unsloth_temporary_saved_buffers/
 unsloth_compiled_cache/
 utils/__pycache__/
 venv/
+*.csv

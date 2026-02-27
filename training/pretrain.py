@@ -1,12 +1,13 @@
 import argparse
 import sys
+import os
+from unsloth import FastLanguageModel, is_bfloat16_supported
 
 import numpy as np
 import torch
 from datasets import load_dataset
 from transformers import TrainingArguments, LlamaTokenizer
 from trl import SFTTrainer
-from unsloth import FastLanguageModel, is_bfloat16_supported
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -16,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument("--log_path", type=str, required=True, default=None)
     parser.add_argument("--output_path", type=str, required=True, default=None)
 
-    parser.add_argument("--max_seq_length", type=int, default=2048)
+    parser.add_argument("--max_seq_length", type=int, default=1024)
     parser.add_argument("--load_in_4bit", action="store_true", default=False)
 
     parser.add_argument("--lora_rank", type=int, default=16)
@@ -38,6 +39,7 @@ if __name__ == "__main__":
     parser.add_argument("--time_sep", type=str, default=" ")
     parser.add_argument("--time_flag", type=str, default="###")
     parser.add_argument("--nan_flag", type=str, default="Nan")
+    parser.add_argument("--attn", type=str, default=None)
 
     args = parser.parse_args()
 
@@ -61,7 +63,11 @@ if __name__ == "__main__":
     print(f"New model pieces: {len(tokenizer.get_vocab())}")
 
     EOS_TOKEN = tokenizer.eos_token
-
+    
+    # ✨ [수정 부분] DDP 환경에서 각 프로세스가 자신의 GPU를 찾도록 LOCAL_RANK 할당
+    local_rank = int(os.environ.get("LOCAL_RANK", 0))
+    print(f"Local rank: {local_rank}")
+    
     # load model
     model, _ = FastLanguageModel.from_pretrained(
         model_name=args.model_path,
@@ -69,6 +75,8 @@ if __name__ == "__main__":
         dtype=None,
         load_in_4bit=args.load_in_4bit,
         resize_model_vocab=len(tokenizer.get_vocab()),
+        device_map={"": local_rank},  # ✨ 이 줄을 추가합니다.
+        
     )
 
     # add lora to llama model
@@ -88,7 +96,13 @@ if __name__ == "__main__":
 
     # load dataset
     def formatting_func(example):
-        return example["text"] + [EOS_TOKEN]
+        # 1. 배치가 리스트로 들어오는 경우 (Map 실행 시)
+        if isinstance(example["text"], list):
+            return [t + EOS_TOKEN for t in example["text"]]
+        
+        # 2. 샘플 하나(문자열)가 들어오는 경우 (SFTTrainer 내부 테스트 시)
+        else:
+            return [example["text"] + EOS_TOKEN] # 리스트로 감싸서 반환
 
 
     print(f"\nLoading dataset in {args.dataset_path}")
@@ -100,9 +114,8 @@ if __name__ == "__main__":
         model=model,
         tokenizer=tokenizer,
         train_dataset=dataset,
-        dataset_text_field="text",
         max_seq_length=args.max_seq_length,
-        dataset_num_proc=64,
+        dataset_num_proc=32,
         packing=False,
         formatting_func=formatting_func,
         args=TrainingArguments(
@@ -126,29 +139,31 @@ if __name__ == "__main__":
             output_dir=args.log_path,
             fp16=not is_bfloat16_supported(),
             bf16=is_bfloat16_supported(),
+            ddp_find_unused_parameters=False
         ),
     )
-
-    # title Show current memory stats
-    gpu_stats = torch.cuda.get_device_properties(0)
-    start_gpu_memory = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
-    max_memory = round(gpu_stats.total_memory / 1024 / 1024 / 1024, 3)
-    print(f"\nGPU = {gpu_stats.name}. Max memory = {max_memory} GB.")
-    print(f"{start_gpu_memory} GB of memory reserved.\n")
+    if trainer.accelerator is not None and trainer.accelerator.is_main_process:
+        # title Show current memory stats
+        gpu_stats = torch.cuda.get_device_properties(0)
+        start_gpu_memory = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
+        max_memory = round(gpu_stats.total_memory / 1024 / 1024 / 1024, 3)
+        print(f"\nGPU = {gpu_stats.name}. Max memory = {max_memory} GB.")
+        print(f"{start_gpu_memory} GB of memory reserved.\n")
 
     trainer_stats = trainer.train()
+    
+    if trainer.accelerator is not None and trainer.accelerator.is_main_process:
+        # title Show final memory and time stats
+        used_memory = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
+        used_memory_for_lora = round(used_memory - start_gpu_memory, 3)
+        used_percentage = round(used_memory / max_memory * 100, 3)
+        lora_percentage = round(used_memory_for_lora / max_memory * 100, 3)
+        print(f"\n{trainer_stats.metrics['train_runtime']} seconds used for training.")
+        print(f"{round(trainer_stats.metrics['train_runtime'] / 60, 2)} minutes used for training.")
+        print(f"Peak reserved memory = {used_memory} GB.")
+        print(f"Peak reserved memory for training = {used_memory_for_lora} GB.")
+        print(f"Peak reserved memory % of max memory = {used_percentage} %.")
+        print(f"Peak reserved memory for training % of max memory = {lora_percentage} %.\n")
 
-    # title Show final memory and time stats
-    used_memory = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
-    used_memory_for_lora = round(used_memory - start_gpu_memory, 3)
-    used_percentage = round(used_memory / max_memory * 100, 3)
-    lora_percentage = round(used_memory_for_lora / max_memory * 100, 3)
-    print(f"\n{trainer_stats.metrics['train_runtime']} seconds used for training.")
-    print(f"{round(trainer_stats.metrics['train_runtime'] / 60, 2)} minutes used for training.")
-    print(f"Peak reserved memory = {used_memory} GB.")
-    print(f"Peak reserved memory for training = {used_memory_for_lora} GB.")
-    print(f"Peak reserved memory % of max memory = {used_percentage} %.")
-    print(f"Peak reserved memory for training % of max memory = {lora_percentage} %.\n")
-
-    # save model and tokenizer
-    model.save_pretrained_merged(args.output_path, tokenizer)
+        # save model and tokenizer
+        model.save_pretrained_merged(args.output_path, tokenizer)
